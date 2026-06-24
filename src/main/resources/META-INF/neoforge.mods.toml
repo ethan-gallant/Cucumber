@@ -9,7 +9,7 @@ license="MIT"
     # credits="Thanks for this example mod goes to Java"
     authors="BlakeBr0"
     displayName="Cucumber Library"
-    updateJSONURL="https://api.blakesmods.com/v2/mods/cucumber/26.1/updates"
+    updateJSONURL="https://api.blakesmods.com/v2/mods/cucumber/26.2/updates"
     description='''
     A library of shared code that all of my mods depend on.
     '''
@@ -20,12 +20,12 @@ license="MIT"
     [[dependencies.cucumber]]
         modId="neoforge"
         mandatory=true
-        versionRange="[26.1.2.41-beta,)"
+        versionRange="[26.2.0.7-beta,)"
         ordering="NONE"
         side="BOTH"
     [[dependencies.cucumber]]
         modId="minecraft"
         mandatory=true
-        versionRange="[26.1.2,26.2)"
+        versionRange="[26.2,26.3)"
         ordering="NONE"
         side="BOTH"

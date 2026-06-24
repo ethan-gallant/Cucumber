@@ -2,7 +2,7 @@ package com.blakebr0.cucumber.item.tool;
 
 import com.blakebr0.cucumber.item.BaseItem;
 import com.blakebr0.cucumber.lib.ModTags;
-import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;

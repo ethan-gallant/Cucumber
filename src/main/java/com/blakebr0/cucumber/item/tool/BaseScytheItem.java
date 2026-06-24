@@ -118,7 +118,7 @@ public class BaseScytheItem extends BaseItem {
                         var damage = CommonHooks.onLivingDamagePre(aoeEntity, new DamageContainer(source, attackDamage));
 
                         if (damage > 0) {
-                            aoeEntity.knockback(0.4F, Mth.sin(player.getYRot() * 0.017453292F), -Mth.cos(player.getYRot() * 0.017453292F));
+                            aoeEntity.knockback(0.4F, Mth.sin(player.getYRot() * 0.017453292F), -Mth.cos(player.getYRot() * 0.017453292F), source, damage, false);
                             aoeEntity.hurt(source, damage);
 
                             CommonHooks.onLivingDamagePost(aoeEntity, new DamageContainer(source, damage));

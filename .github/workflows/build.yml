@@ -1,0 +1,53 @@
+name: Build
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build
+        run: ./gradlew build --stacktrace
+
+      - name: Upload jars
+        uses: actions/upload-artifact@v4
+        with:
+          name: Cucumber-jars
+          path: build/libs/*.jar
+          if-no-files-found: error
+
+      - name: Publish to GitHub Packages (skip if version exists)
+        if: github.event_name != 'pull_request'
+        env:
+          GPR_USER: ${{ github.actor }}
+          GPR_TOKEN: ${{ secrets.GPR_TOKEN || secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION=$(grep -m1 "^version" build.gradle | sed -E "s/.*'([^']+)'.*/\1/")
+          JAR_URL="https://maven.pkg.github.com/ethan-gallant/Cucumber/com/ethangallant/cucumber/${VERSION}/cucumber-${VERSION}.jar"
+          CODE=$(curl -s -o /dev/null -w '%{http_code}' -u "${GPR_USER}:${GPR_TOKEN}" "${JAR_URL}")
+          echo "Existence check for ${VERSION}: HTTP ${CODE}"
+          if [ "${CODE}" = "200" ]; then
+            echo "Cucumber ${VERSION} already published to GitHub Packages; skipping."
+          else
+            ./gradlew publish --stacktrace
+          fi
